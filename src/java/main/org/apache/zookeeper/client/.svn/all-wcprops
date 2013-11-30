@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/repos/asf/!svn/ver/1538853/zookeeper/trunk/src/java/main/org/apache/zookeeper/client
+END
+FourLetterWordMain.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/repos/asf/!svn/ver/1225108/zookeeper/trunk/src/java/main/org/apache/zookeeper/client/FourLetterWordMain.java
+END
+ZooKeeperSaslClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/repos/asf/!svn/ver/1531396/zookeeper/trunk/src/java/main/org/apache/zookeeper/client/ZooKeeperSaslClient.java
+END
+ConnectStringParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/repos/asf/!svn/ver/1438351/zookeeper/trunk/src/java/main/org/apache/zookeeper/client/ConnectStringParser.java
+END
+HostProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/repos/asf/!svn/ver/1410731/zookeeper/trunk/src/java/main/org/apache/zookeeper/client/HostProvider.java
+END
+StaticHostProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/repos/asf/!svn/ver/1538853/zookeeper/trunk/src/java/main/org/apache/zookeeper/client/StaticHostProvider.java
+END

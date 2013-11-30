@@ -1,0 +1,42 @@
+10
+
+dir
+0
+http://svn.apache.org/repos/asf/zookeeper/trunk/src/java/main/org/apache/xmysqld
+http://svn.apache.org/repos/asf
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+13f79535-47bb-0310-9956-ffa450edef68
+
+AutoIncrementIDPool.java
+file
+
+
+
+add
+
+algorithm
+dir
+
+
+
+add
+

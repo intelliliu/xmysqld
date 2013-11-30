@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/repos/asf/!svn/ver/1529344/zookeeper/trunk/src/java/main/org/apache/zookeeper/server/util
+END
+ConfigUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/repos/asf/!svn/ver/1453693/zookeeper/trunk/src/java/main/org/apache/zookeeper/server/util/ConfigUtils.java
+END
+OSMXBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/repos/asf/!svn/ver/1529344/zookeeper/trunk/src/java/main/org/apache/zookeeper/server/util/OSMXBean.java
+END
+KerberosUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/repos/asf/!svn/ver/1355651/zookeeper/trunk/src/java/main/org/apache/zookeeper/server/util/KerberosUtil.java
+END
+ZxidUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/repos/asf/!svn/ver/1135382/zookeeper/trunk/src/java/main/org/apache/zookeeper/server/util/ZxidUtils.java
+END
+VerifyingFileFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/repos/asf/!svn/ver/1171881/zookeeper/trunk/src/java/main/org/apache/zookeeper/server/util/VerifyingFileFactory.java
+END
+SerializeUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/repos/asf/!svn/ver/1453693/zookeeper/trunk/src/java/main/org/apache/zookeeper/server/util/SerializeUtils.java
+END
