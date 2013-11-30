@@ -12,6 +12,12 @@ public class CircleQueue {
 	private int elementLength;
 	private byte[] queue;
 	private int tail,head;
+
+	/**
+	 *
+	 * @param queueLength
+	 * @param elementLength length of each element which describe one finalNo
+	 */
 	public CircleQueue(int queueLength, int elementLength){
 		this.queueLength=queueLength;
 		this.elementLength=elementLength;
