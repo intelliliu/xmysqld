@@ -18,7 +18,7 @@ public class AutoIncrementIDPool {
 	}
 
 	/**
-	 * when propose , leader need increment the value by idSizeOneNo*AllMemberSize
+	 * when propose , leader need increment the autoIncrementId by idSizeOneNo*AllMemberSize
 	 */
 	private  int idSizeOneNo;
 	private  CircleQueue circleQueue;
@@ -43,9 +43,9 @@ public class AutoIncrementIDPool {
 		synchronized (circleQueue){
 			while (!circleQueue.add(element)){
 				try {
-					wait();
+					wait();//the pool is full
 				} catch (InterruptedException e) {
-					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+					e.printStackTrace();
 				}
 			}
 			notifyAll();
@@ -58,9 +58,10 @@ public class AutoIncrementIDPool {
 		synchronized (circleQueue){
 			while (circleQueue.remove(element)==null){
 				try {
-					wait();
+
+					wait();//the pool is empty
 				} catch (InterruptedException e) {
-					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+					e.printStackTrace();
 				}
 			}
 			notifyAll();
