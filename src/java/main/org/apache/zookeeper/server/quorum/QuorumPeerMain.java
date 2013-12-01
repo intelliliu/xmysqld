@@ -65,7 +65,7 @@ public class QuorumPeerMain {
 
     private static final String USAGE = "Usage: QuorumPeerMain configfile";
 
-    protected QuorumPeer quorumPeer;
+    public static QuorumPeer quorumPeer;
 
     /**
      * To start the replicated server specify the configuration file name on
