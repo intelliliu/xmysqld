@@ -1,7 +1,19 @@
 package org.apache.xmysqld;
 
+import org.apache.jute.BinaryOutputArchive;
 import org.apache.xmysqld.algorithm.CircleQueue;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.proto.AllocateRequest;
+import org.apache.zookeeper.proto.ConnectRequest;
+import org.apache.zookeeper.proto.RequestHeader;
+import org.apache.zookeeper.proto.SetDataRequest;
+import org.apache.zookeeper.server.Request;
+import org.apache.zookeeper.server.RequestProcessor;
+import org.apache.zookeeper.server.quorum.QuorumPeer;
+import org.apache.zookeeper.server.quorum.QuorumPeerMain;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 
@@ -13,14 +25,17 @@ import java.nio.ByteBuffer;
  * To change this template use File | Settings | File Templates.
  */
 public class AutoIncrementIDPool {
-	public AutoIncrementIDPool(int idSizeOneNo){
-		this.idSizeOneNo=idSizeOneNo;
-	}
 
 	/**
 	 * when propose , leader need increment the autoIncrementId by idSizeOneNo*AllMemberSize
 	 */
-	private  int idSizeOneNo;
+	private int idSizeOneNo;
+	private String path;
+	public AutoIncrementIDPool(int idSizeOneNo, String path){
+		this.idSizeOneNo=idSizeOneNo;
+		this.path=path;
+	}
+
 	private  CircleQueue circleQueue;
 	 {//just for demo,need load from config when start
 		idSizeOneNo=20;
@@ -56,10 +71,15 @@ public class AutoIncrementIDPool {
 	private long remove(){
 		byte[] element=new byte[10];
 		synchronized (circleQueue){
-			while (circleQueue.remove(element)==null){
+			while (circleQueue.remove(element)==null){//the pool is empty, let's move
 				try {
-
-					wait();//the pool is empty
+					QuorumPeer qp=QuorumPeerMain.quorumPeer;
+					try {
+						qp.getActiveServer().firstProcessor.processRequest(createBB());
+					} catch (RequestProcessor.RequestProcessorException e) {
+						e.printStackTrace();
+					}
+					wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -84,5 +104,30 @@ public class AutoIncrementIDPool {
 			cursor=offset;
 			return cursor++;
 		}
+	}
+
+	public Request createBB() {
+		Request si=null;
+		RequestHeader requestHeader = new RequestHeader();
+		requestHeader.setType(ZooDefs.OpCode.allocate);
+		AllocateRequest request = new AllocateRequest();
+		request.setPath(path);
+		request.setData(null);
+		request.setVersion(-1);
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			BinaryOutputArchive boa = BinaryOutputArchive.getArchive(baos);
+			boa.writeInt(-1, "len"); // We'll fill this in later
+			requestHeader.serialize(boa, "header");
+			request.serialize(boa, "request");
+			baos.close();
+			ByteBuffer bb = ByteBuffer.wrap(baos.toByteArray());//pos==0
+			bb.putInt(bb.capacity() - 4);
+			bb.rewind();
+			si = new Request(null, 0l, 0,ZooDefs.OpCode.allocate, bb, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return si;
 	}
 }

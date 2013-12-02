@@ -83,6 +83,7 @@ public class FollowerRequestProcessor extends Thread implements
                 case OpCode.create:
                 case OpCode.delete:
                 case OpCode.setData:
+				case OpCode.allocate:
                 case OpCode.reconfig:
                 case OpCode.setACL:
                 case OpCode.multi:

@@ -97,7 +97,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     private ZKDatabase zkDb;
     private final AtomicLong hzxid = new AtomicLong(0);
     public final static Exception ok = new Exception("No prob");
-    protected RequestProcessor firstProcessor;
+    public RequestProcessor firstProcessor;
     protected volatile boolean running;
 
     /**

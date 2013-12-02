@@ -155,7 +155,7 @@ public class FollowerZooKeeperServer extends LearnerZooKeeperServer {
 				bonus[1]= (int) (temp>>48);
 				break;
 		}
-		boolean isAdd= AutoIncrementIDPool.add(finalNo, maxId);
+		boolean isAdd= new AutoIncrementIDPool(20,"/mysql_id/hnair/tb_order/id").add(finalNo, maxId);
 		commitProcessor.commit(request);
 	}
 
