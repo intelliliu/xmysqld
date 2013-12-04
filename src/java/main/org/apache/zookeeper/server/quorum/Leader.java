@@ -954,7 +954,7 @@ public class Leader {
 			for (LearnerHandler f : forwardingFollowers) {
 				int allocateNo=orderMap.get(f.getSid());
 				byte[] allocateInfo;
-				if(f.getSid()==2){//it's you start this propose
+				if(f.isAllocate==true){//it's you start this propose
 					allocateInfo=ByteBuffer.allocate(8).putLong(allocateNo+((long)orderSet.size())<<32+
 							((long)self.getQuorumVerifier().getAllMembers().size())<<48).array();
 				} else {

@@ -25,11 +25,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 
@@ -56,6 +59,8 @@ import org.slf4j.LoggerFactory;
  */
 public class LearnerHandler extends Thread {
     private static final Logger LOG = LoggerFactory.getLogger(LearnerHandler.class);
+
+	public boolean isAllocate=false;
 
     protected final Socket sock;
 
@@ -551,6 +556,9 @@ public class LearnerHandler extends Thread {
                     sessionId = bb.getLong();
                     cxid = bb.getInt();
                     type = bb.getInt();
+	                if(type==OpCode.allocate){
+		                isAllocate=true;
+	                }
                     bb = bb.slice();
                     Request si;
                     if(type == OpCode.sync){

@@ -106,7 +106,7 @@ public class AutoIncrementIDPool {
 		}
 	}
 
-	public Request createBB() {
+	private Request createBB() {
 		Request si=null;
 		RequestHeader requestHeader = new RequestHeader();
 		requestHeader.setType(ZooDefs.OpCode.allocate);
