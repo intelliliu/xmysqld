@@ -34,7 +34,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jute.BinaryOutputArchive;
+import org.apache.xmysqld.Constant;
 import org.apache.zookeeper.ZooDefs.OpCode;
+import org.apache.zookeeper.proto.AllocateRequest;
 import org.apache.zookeeper.server.FinalRequestProcessor;
 import org.apache.zookeeper.server.Request;
 import org.apache.zookeeper.server.RequestProcessor;
@@ -954,7 +956,7 @@ public class Leader {
 			for (LearnerHandler f : forwardingFollowers) {
 				int allocateNo=orderMap.get(f.getSid());
 				byte[] allocateInfo;
-				if(f.isAllocate==true){//it's you start this propose
+				if(f.isAllocate==true) {//i think members size couldn't no more than 2^16, why zk starter use int?
 					allocateInfo=ByteBuffer.allocate(8).putLong(allocateNo+((long)orderSet.size())<<32+
 							((long)self.getQuorumVerifier().getAllMembers().size())<<48).array();
 				} else {
@@ -1077,6 +1079,16 @@ public class Leader {
             throw new XidRolloverException(msg);
         }
 
+	    if(request.getHdr().getType()==OpCode.allocate){
+		    AllocateRequest request1 = (AllocateRequest)request.getTxn();
+            synchronized (request1.getData()) {
+	            ByteBuffer byteBuffer=ByteBuffer.allocate(8).put(request1.getData());
+		        byteBuffer.flip();
+		        long curId=byteBuffer.getLong();
+		        long newId=curId+self.getQuorumVerifier().getAllMembers().size() * Constant.ID_PER_NO;
+	            request1.setData(ByteBuffer.allocate(8).putLong(newId).array());
+	        }
+	    }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BinaryOutputArchive boa = BinaryOutputArchive.getArchive(baos);
         try {

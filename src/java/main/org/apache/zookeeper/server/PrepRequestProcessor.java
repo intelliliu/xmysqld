@@ -490,9 +490,18 @@ public class PrepRequestProcessor extends Thread implements RequestProcessor {
 		        }
 		        path = allocateRequest.getPath();
 		        nodeRecord = getRecordForPath(path);
+
+		        DataNode node=zks.getZKDatabase().getNode(path);
+//		        synchronized (node) {
+//		            ByteBuffer byteBuffer=ByteBuffer.allocate(8).put(node.data);
+//			        byteBuffer.flip();
+//			        long curId=byteBuffer.getLong();
+//			        long newId=curId+
+//		        }
+
 		        checkACL(zks, nodeRecord.acl, ZooDefs.Perms.WRITE, request.authInfo);
 		        int newVersion = checkAndIncVersion(nodeRecord.stat.getVersion(), allocateRequest.getVersion(), path);
-		        request.setTxn(new AllocateTxn(path, allocateRequest.getData(), newVersion));
+		        request.setTxn(new AllocateTxn(path, node.data, newVersion));
 		        nodeRecord = nodeRecord.duplicate(request.getHdr().getZxid());
 		        nodeRecord.stat.setVersion(newVersion);
 		        addChangeRecord(nodeRecord);

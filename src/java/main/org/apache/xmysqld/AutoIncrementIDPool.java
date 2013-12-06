@@ -37,8 +37,8 @@ public class AutoIncrementIDPool {
 	}
 
 	private  CircleQueue circleQueue;
-	 {//just for demo,need load from config when start
-		idSizeOneNo=20;
+	{//just for demo,need load from config when start
+		idSizeOneNo=Constant.;
 	  	circleQueue=new CircleQueue(100,10);
 	}
 
