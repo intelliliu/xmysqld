@@ -25,6 +25,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.jute.Record;
 import org.apache.xmysqld.AutoIncrementIDPool;
+import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.txn.SetDataTxn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

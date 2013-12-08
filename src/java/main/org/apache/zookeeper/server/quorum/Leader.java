@@ -372,6 +372,11 @@ public class Leader {
      * Similar to COMMIT, only for a reconfig operation.
      */
     final static int COMMITANDACTIVATE = 9;
+
+	/**
+	 * Similar to COMMIT, only for a allocate operation.
+	 */
+	final static int COMMITANDALLOCATE = 10;
     
     /**
      * Similar to INFORM, only for a reconfig operation.
@@ -767,7 +772,9 @@ public class Leader {
             commitAndActivate(zxid, designatedLeader);
             informAndActivate(p, designatedLeader);
             //turnOffFollowers();
-        } else {
+        } else if(p.request.getHdr().getType() == OpCode.allocate){
+	      	allocateCommit(zxid);
+        }else {
             commit(zxid);
             inform(p);
         }
@@ -956,7 +963,7 @@ public class Leader {
 			for (LearnerHandler f : forwardingFollowers) {
 				int allocateNo=orderMap.get(f.getSid());
 				byte[] allocateInfo;
-				if(f.isAllocate==true) {//i think members size couldn't no more than 2^16, why zk starter use int?
+				if(f.isAllocate==true) {//we consider members size couldn't no more than 2^16
 					allocateInfo=ByteBuffer.allocate(8).putLong(allocateNo+((long)orderSet.size())<<32+
 							((long)self.getQuorumVerifier().getAllMembers().size())<<48).array();
 				} else {
@@ -996,7 +1003,7 @@ public class Leader {
 		synchronized(this){
 			lastCommitted = zxid;
 		}
-		QuorumPacket qp = new QuorumPacket(Leader.COMMIT, zxid, null, null);
+		QuorumPacket qp = new QuorumPacket(Leader.COMMITANDALLOCATE, zxid, null, null);
 		sendAllocatePacket(qp);
 	}
 

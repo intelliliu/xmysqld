@@ -133,10 +133,13 @@ public class Follower extends Learner{
             
             fzk.logRequest(hdr, txn);
             break;
+        case Leader.COMMITANDALLOCATE:
+	        fzk.allocateCommit(qp);
+	        break;
         case Leader.COMMIT:
             fzk.commit(qp.getZxid());
             break;
-            
+
         case Leader.COMMITANDACTIVATE:
            // get the new configuration from the request
            Request request = fzk.pendingTxns.element();
