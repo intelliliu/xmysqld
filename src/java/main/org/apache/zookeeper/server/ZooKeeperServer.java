@@ -107,7 +107,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
     static final private long superSecret = 0XB3415C00L;
 
     private final AtomicInteger requestsInProcess = new AtomicInteger(0);
-    final List<ChangeRecord> outstandingChanges = new ArrayList<ChangeRecord>();
+    public final List<ChangeRecord> outstandingChanges = new ArrayList<ChangeRecord>();
     // this data structure must be accessed under the outstandingChanges lock
     final HashMap<String, ChangeRecord> outstandingChangesForPath =
         new HashMap<String, ChangeRecord>();
@@ -481,7 +481,7 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
      * This structure is used to facilitate information sharing between PrepRP
      * and FinalRP.
      */
-    static class ChangeRecord {
+    public static class ChangeRecord {
         ChangeRecord(long zxid, String path, StatPersisted stat, int childCount,
                 List<ACL> acl) {
             this.zxid = zxid;

@@ -1061,6 +1061,8 @@ public class Leader {
         }
     }
 
+	public ConcurrentHashMap<String, Long> curMaxId4Path=new ConcurrentHashMap<String, Long>();
+
     /**
      * create a proposal and send it out to all the members
      *
@@ -1084,11 +1086,13 @@ public class Leader {
             synchronized (request1.getData()) {
 	            ByteBuffer byteBuffer=ByteBuffer.allocate(8).put(request1.getData());
 		        byteBuffer.flip();
-		        long curId=byteBuffer.getLong();
+		        long curId=Math.max(byteBuffer.getLong(), curMaxId4Path.get(request1.getPath()));
 		        long newId=curId+self.getQuorumVerifier().getAllMembers().size() * Constant.ID_PER_NO;
+	            curMaxId4Path.put(request1.getPath(), newId);
 	            request1.setData(ByteBuffer.allocate(8).putLong(newId).array());
 	        }
 	    }
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BinaryOutputArchive boa = BinaryOutputArchive.getArchive(baos);
         try {
